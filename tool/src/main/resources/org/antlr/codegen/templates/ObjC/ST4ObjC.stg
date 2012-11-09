@@ -161,12 +161,12 @@ if ( <actions.(actionScope).synpredgate> ) {
 
 replaceTextInLine() ::= <<
 <if(TREE_PARSER)>
-    [([(TokenRewriteStream)input getTokenStream]) 
+    [([(TokenRewriteStream)input getTokenStream])
     replaceFromIndex:[[input getTreeAdaptor] getTokenStartIndex:retval.start]
     ToIndex:[[input getTreeAdaptor] getTokenStopIndex:retval.start]
     Text:[retval.st render]];
 <else>
-    [((TokenRewriteStream)input) 
+    [((TokenRewriteStream)input)
     replaceFromIndex:[((Token)retval.start) getTokenIndex]
     ToIndex:[input LT:-1] getTokenIndex]
     Text:[retval.st render]];

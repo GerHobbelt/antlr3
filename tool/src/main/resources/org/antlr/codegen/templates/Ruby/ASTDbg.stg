@@ -5,8 +5,8 @@ end
 
 attr_reader :adaptor
 def adaptor=( adaptor )
-  @adaptor = 
-    adaptor.is_a?( ANTLR3::Debug::TreeAdaptor ) ? adaptor : 
+  @adaptor =
+    adaptor.is_a?( ANTLR3::Debug::TreeAdaptor ) ? adaptor :
       ANTLR3::Debug::TreeAdaptor.wrap( adaptor, @debug_listener )
   <grammar.directDelegates:{g|<g:delegateName()>.adaptor = @adaptor}; separator="\n">
 end
@@ -20,9 +20,9 @@ createListenerAndHandshake() ::= <<
 options[ :debug_listener ] ||= begin
   port = options[ :port ]
   log  = options[ :log ]
-  proxy = ANTLR3::Debug::EventSocketProxy.new( self, 
+  proxy = ANTLR3::Debug::EventSocketProxy.new( self,
     :adaptor => adaptor,
-    :log     => log, 
+    :log     => log,
     :port    => port
   )
   proxy.handshake

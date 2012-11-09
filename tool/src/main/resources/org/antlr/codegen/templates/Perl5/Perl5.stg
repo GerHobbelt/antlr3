@@ -35,10 +35,10 @@ group Perl5;
 outputFile(LEXER,PARSER,TREE_PARSER, actionScope, actions,
            docComment, recognizer,
            name, tokens, tokenNames, rules, cyclicDFAs,
-	   bitsets, buildTemplate, buildAST, rewriteMode, profile,
-	   backtracking, synpreds, memoize, numRules,
-	   fileName, ANTLRVersion, generatedTimestamp, trace,
-	   scopes, superClass, literals) ::=
+       bitsets, buildTemplate, buildAST, rewriteMode, profile,
+       backtracking, synpreds, memoize, numRules,
+       fileName, ANTLRVersion, generatedTimestamp, trace,
+       scopes, superClass, literals) ::=
 <<
 # $ANTLR <ANTLRVersion> <fileName> <generatedTimestamp>
 <actions.(actionScope).header>
@@ -118,10 +118,10 @@ __PACKAGE__->meta->make_immutable();
 >>
 
 perlTypeInitMap ::= [
-	"$":"undef",
-	"@":"()",
-	"%":"()",
-	default:"undef"
+    "$":"undef",
+    "@":"()",
+    "%":"()",
+    default:"undef"
 ]
 
 /** A override of Lexer.nextToken() that backtracks over mTokens() looking
@@ -137,11 +137,11 @@ public Token nextToken() {
             return Token.EOF_TOKEN;
         }
         token = null;
-	channel = Token.DEFAULT_CHANNEL;
+    channel = Token.DEFAULT_CHANNEL;
         tokenStartCharIndex = input.index();
         tokenStartCharPositionInLine = input.getCharPositionInLine();
         tokenStartLine = input.getLine();
-	text = null;
+    text = null;
         try {
             int m = input.mark();
             backtracking=1; <! means we won't throw slow exception !>
@@ -168,8 +168,8 @@ public Token nextToken() {
 }
 
 public void memoize(IntStream input,
-		int ruleIndex,
-		int ruleStartIndex)
+        int ruleIndex,
+        int ruleStartIndex)
 {
 if ( backtracking>1 ) super.memoize(input, ruleIndex, ruleStartIndex);
 }
@@ -575,10 +575,10 @@ while (1) {
     <decision>
     <@postdecision()>
     switch ($alt<decisionNumber>) {
-	    <alts:altSwitchCase()>
-	    else {
-	        if ( $cnt<decisionNumber> >= 1 ) { last LOOP<decisionNumber> }
-	        <ruleBacktrackFailure()>
+        <alts:altSwitchCase()>
+        else {
+            if ( $cnt<decisionNumber> >= 1 ) { last LOOP<decisionNumber> }
+            <ruleBacktrackFailure()>
             my $eee =
                 ANTLR::Runtime::EarlyExitException->new(<decisionNumber>, $self->input);
             <@earlyExitException()>
@@ -604,8 +604,8 @@ while (1) {
     <decision>
     <@postdecision()>
     switch ($alt<decisionNumber>) {
-	    <alts:altSwitchCase()>
-	    else { last LOOP<decisionNumber> }
+        <alts:altSwitchCase()>
+        else { last LOOP<decisionNumber> }
     }
 }
 <@postloop()>

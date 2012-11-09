@@ -45,8 +45,8 @@ private StringTemplateGroup _templateGroup = new StringTemplateGroup("<name>Temp
 
 public StringTemplateGroup TemplateGroup
 {
-	get { return _templateGroup; }
-	set { _templateGroup = value; }
+    get { return _templateGroup; }
+    set { _templateGroup = value; }
 }
 >>
 
@@ -66,8 +66,8 @@ rewriteTemplate(alts) ::= <<
 <if(backtracking)>
 if (<actions.(actionScope).synpredgate>)
 {
-	<alts:rewriteTemplateAlt(); separator="else ">
-	<if(rewriteMode)><replaceTextInLine()><endif>
+    <alts:rewriteTemplateAlt(); separator="else ">
+    <if(rewriteMode)><replaceTextInLine()><endif>
 }
 <else>
 <alts:rewriteTemplateAlt(); separator="else ">
@@ -78,14 +78,14 @@ if (<actions.(actionScope).synpredgate>)
 replaceTextInLine() ::= <<
 <if(TREE_PARSER)>
 ((TokenRewriteStream)input.TokenStream).Replace(
-	input.TreeAdaptor.GetTokenStartIndex(retval.Start),
-	input.TreeAdaptor.GetTokenStopIndex(retval.Start),
-	retval.Template);
+    input.TreeAdaptor.GetTokenStartIndex(retval.Start),
+    input.TreeAdaptor.GetTokenStopIndex(retval.Start),
+    retval.Template);
 <else>
 ((TokenRewriteStream)input).Replace(
-	retval.Start.TokenIndex,
-	input.LT(-1).TokenIndex,
-	retval.Template);
+    retval.Start.TokenIndex,
+    input.LT(-1).TokenIndex,
+    retval.Template);
 <endif>
 >>
 
@@ -94,11 +94,11 @@ rewriteTemplateAlt(it) ::= <<
 <if(it.pred)>
 if (<it.pred>)
 {
-	retval.Template = <it.alt>;
+    retval.Template = <it.alt>;
 }<\n>
 <else>
 {
-	retval.Template = <it.alt>;
+    retval.Template = <it.alt>;
 }<\n>
 <endif>
 >>
@@ -129,7 +129,7 @@ new StringTemplate(TemplateGroup, "<template>"<optionalArguments(args)>)
 
 optionalArguments(args) ::= <<
 <if(args)>,
-	new Dictionary\<string, object>() { <args:optionalArgument(); separator=", "> }
+    new Dictionary\<string, object>() { <args:optionalArgument(); separator=", "> }
 <endif>
 >>
 

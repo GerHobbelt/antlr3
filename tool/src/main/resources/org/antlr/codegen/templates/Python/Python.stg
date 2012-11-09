@@ -34,11 +34,11 @@ apiVersion() ::= "1"
 // System.Boolean.ToString() returns "True" and "False", but the proper C# literals are "true" and "false"
 // The Java version of Boolean returns "true" and "false", so they map to themselves here.
 booleanLiteral ::= [
-	       "True":"true",
-	       "False":"false",
-	       "true":"true",
-	       "false":"false",
-	       default:"false"
+           "True":"true",
+           "False":"false",
+           "true":"true",
+           "false":"false",
+           default:"false"
 ]
 
 /** The overall file structure of a recognizer; stores methods for rules
@@ -133,7 +133,7 @@ class <grammar.recognizerName>(<@superClassName><superClass><@end>):
         <grammar.delegators:
          {g|self.<g:delegateName()> = <g:delegateName()>}; separator="\n">
         <last(grammar.delegators):
-    	 {g|self.gParent = <g:delegateName()>}; separator="\n">
+         {g|self.gParent = <g:delegateName()>}; separator="\n">
         self.delegates = [<grammar.delegates: {g|self.<g:delegateName()>}; separator = ", ">]
 
         <cyclicDFAs:{dfa | <cyclicDFAInit(dfa)>}; separator="\n">
@@ -222,7 +222,7 @@ filteringActionGate() ::= "self._state.backtracking == 1"
 
 genericParser(grammar, name, scopes, tokens, tokenNames, rules, numRules,
               bitsets, inputStreamType, superClass, labelType, members,
-	      rewriteElementType, filterMode, init, ASTLabelType="Object") ::= <<
+          rewriteElementType, filterMode, init, ASTLabelType="Object") ::= <<
 <if(grammar.grammarIsRoot)>
 # token names
 tokenNames = [
@@ -260,7 +260,7 @@ class <grammar.recognizerName>(<@superClassName><superClass><@end>):
         <cyclicDFAs:{dfa | <cyclicDFAInit(dfa)>}; separator="\n">
 
         <scopes:{it | <if(it.isDynamicGlobalScope)><globalAttributeScopeStack(scope=it)><endif>}>
-	<rules:{it | <ruleAttributeScopeStack(scope=it.ruleDescriptor.ruleScope)>}>
+    <rules:{it | <ruleAttributeScopeStack(scope=it.ruleDescriptor.ruleScope)>}>
 
         <init>
 
@@ -271,10 +271,10 @@ class <grammar.recognizerName>(<@superClassName><superClass><@end>):
         <grammar.directDelegates:
          {g|<g.delegates:{h|self.<h:delegateName()> = self.<g:delegateName()>.<h:delegateName()>}; separator="\n">}; separator="\n">
         <last(grammar.delegators):
-    	 {g|self.gParent = self.<g:delegateName()>}; separator="\n">
+         {g|self.gParent = self.<g:delegateName()>}; separator="\n">
         self.delegates = [<grammar.delegates: {g|self.<g:delegateName()>}; separator = ", ">]
 
-	<@init><@end>
+    <@init><@end>
 
 
     <@members><@end>
@@ -320,7 +320,7 @@ treeParser(grammar, name, scopes, tokens, tokenNames, globalAction, rules,
            numRules, bitsets, filterMode, labelType={<ASTLabelType>}, ASTLabelType="Object",
            superClass={<if(filterMode)><if(buildAST)>TreeRewriter<else>TreeFilter<endif><else>TreeParser<endif>},
            members={<actions.treeparser.members>},
-	   init={<actions.treeparser.init>}
+       init={<actions.treeparser.init>}
            ) ::= <<
 <genericParser(grammar, name, scopes, tokens, tokenNames, rules, numRules,
               bitsets, "TreeNodeStream", superClass,
@@ -601,7 +601,7 @@ def m<ruleName>(self, <ruleDescriptor.parameterScope:parameterScope()>):
 <if(trace)>
         self.traceOut("<ruleName>", <ruleDescriptor.index>)<\n>
 <endif>
-	<ruleScopeCleanUp()>
+    <ruleScopeCleanUp()>
         <memoize()>
         pass
 

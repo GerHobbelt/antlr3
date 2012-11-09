@@ -191,15 +191,15 @@ ruleRefRuleRootTrackAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 // R e w r i t e
 
 rewriteCode(
-	alts, description,
-	referencedElementsDeep, // ALL referenced elements to right of ->
-	referencedTokenLabels,
-	referencedTokenListLabels,
-	referencedRuleLabels,
-	referencedRuleListLabels,
+    alts, description,
+    referencedElementsDeep, // ALL referenced elements to right of ->
+    referencedTokenLabels,
+    referencedTokenListLabels,
+    referencedRuleLabels,
+    referencedRuleListLabels,
     referencedWildcardLabels,
     referencedWildcardListLabels,
-	rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::=
+    rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::=
 <<
 
 // AST REWRITE
@@ -262,10 +262,10 @@ else
   *  list rather shallow like other blocks.
   */
 rewriteOptionalBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements,     // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements,     // elements in immediately block; no nested blocks
+    description) ::=
 <<
 (* <fileName>:<description> *)
 if (<referencedElementsDeep:{el | (Locals['Stream_<el>'] as IRewriteRuleElementStream).HasNext}; separator=" or ">) then
@@ -276,10 +276,10 @@ end;
 >>
 
 rewriteClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements,     // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements,     // elements in immediately block; no nested blocks
+    description) ::=
 <<
 (* <fileName>:<description> *)
 while (<referencedElements:{el | (Locals['Stream_<el>'] as IRewriteRuleElementStream).HasNext}; separator=" or ">) do
@@ -290,10 +290,10 @@ end;
 >>
 
 rewritePositiveClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements,     // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements,     // elements in immediately block; no nested blocks
+    description) ::=
 <<
 if (not (<referencedElements:{el | (Locals['Stream_<el>'] as IRewriteRuleElementStream).HasNext}; separator=" or ">)) then
   raise ERewriteEarlyExitException.Create('');

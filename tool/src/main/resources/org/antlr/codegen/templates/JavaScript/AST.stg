@@ -142,15 +142,15 @@ ruleRefRuleRootTrackAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 // R e w r i t e
 
 rewriteCode(
-	alts, description,
-	referencedElementsDeep, // ALL referenced elements to right of ->
-	referencedTokenLabels,
-	referencedTokenListLabels,
-	referencedRuleLabels,
-	referencedRuleListLabels,
+    alts, description,
+    referencedElementsDeep, // ALL referenced elements to right of ->
+    referencedTokenLabels,
+    referencedTokenListLabels,
+    referencedRuleLabels,
+    referencedRuleListLabels,
     referencedWildcardLabels,
     referencedWildcardListLabels,
-	rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::=
+    rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::=
 <<
 
 // AST REWRITE
@@ -220,10 +220,10 @@ rewriteCodeLabels() ::= <<
   *  list rather shallow like other blocks.
   */
 rewriteOptionalBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 if ( <referencedElementsDeep:{el | stream_<el>.hasNext()}; separator="||"> ) {
@@ -233,10 +233,10 @@ if ( <referencedElementsDeep:{el | stream_<el>.hasNext()}; separator="||"> ) {
 >>
 
 rewriteClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 while ( <referencedElements:{el | stream_<el>.hasNext()}; separator="||"> ) {
@@ -246,10 +246,10 @@ while ( <referencedElements:{el | stream_<el>.hasNext()}; separator="||"> ) {
 >>
 
 rewritePositiveClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 if ( !(<referencedElements:{el | stream_<el>.hasNext()}; separator="||">) ) {
     throw new org.antlr.runtime.tree.RewriteEarlyExitException();

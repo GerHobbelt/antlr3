@@ -174,8 +174,8 @@ wildcard(label,elementIndex) ::= <<
 if (State.Backtracking = 0) then
 begin
 <endif>
-	<label>_tree := Adaptor.CreateNode(<label>) as I<ASTLabelType>;
-	Adaptor.AddChild(Root[0], <label>_tree);
+    <label>_tree := Adaptor.CreateNode(<label>) as I<ASTLabelType>;
+    Adaptor.AddChild(Root[0], <label>_tree);
 <if(backtracking)>
 end;
 <endif>
@@ -189,8 +189,8 @@ wildcardRuleRoot(label,elementIndex) ::= <<
 if (State.Backtracking = 0) then
 begin
 <endif>
-	<label>_tree := Adaptor.CreateNode(<label>) as I<ASTLabelType>;
-	Root[0] := Adaptor.BecomeRoot(<label>_tree, Root[0]) as I<ASTLabelType>;
+    <label>_tree := Adaptor.CreateNode(<label>) as I<ASTLabelType>;
+    Root[0] := Adaptor.BecomeRoot(<label>_tree, Root[0]) as I<ASTLabelType>;
 <if(backtracking)>
 end;
 <endif>

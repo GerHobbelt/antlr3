@@ -34,52 +34,52 @@ classHeader(header,junitFileName,hasTreeAdaptor,treeAdaptorPath,
 import org.antlr.gunit.gUnitBaseTest;
 
 public class <junitFileName> extends gUnitBaseTest {
-	
-	public void setUp() {
-		<if(hasTreeAdaptor)><\t><\t>this.treeAdaptorPath = "<treeAdaptorPath>";<endif>
-		<if(hasPackage)><\t><\t>this.packagePath = "<packagePath>";<endif>
-		this.lexerPath = "<lexerPath>";
-		this.parserPath = "<parserPath>";
-		<if(isTreeGrammar)><\t><\t>this.treeParserPath = "<treeParserPath>";<endif>
-	}<\n><\n>
+
+    public void setUp() {
+        <if(hasTreeAdaptor)><\t><\t>this.treeAdaptorPath = "<treeAdaptorPath>";<endif>
+        <if(hasPackage)><\t><\t>this.packagePath = "<packagePath>";<endif>
+        this.lexerPath = "<lexerPath>";
+        this.parserPath = "<parserPath>";
+        <if(isTreeGrammar)><\t><\t>this.treeParserPath = "<treeParserPath>";<endif>
+    }<\n><\n>
 >>
 
 testTreeRuleMethod(methodName,testTreeRuleName,testRuleName,test,tokenType,expecting) ::= <<
-	public void <methodName>() throws Exception {
-		// gunit test on line <test.line>
-		Object retval = execTreeParser(<testTreeRuleName>, <testRuleName>, "<test.inputEscaped>", <test.isFile>);
-		Object actual = examineExecResult(<tokenType>, retval);
-		Object expecting = <expecting>;
-		
-		assertEquals("testing rule "+<testTreeRuleName>, expecting, actual);
-	}<\n><\n>
+    public void <methodName>() throws Exception {
+        // gunit test on line <test.line>
+        Object retval = execTreeParser(<testTreeRuleName>, <testRuleName>, "<test.inputEscaped>", <test.isFile>);
+        Object actual = examineExecResult(<tokenType>, retval);
+        Object expecting = <expecting>;
+
+        assertEquals("testing rule "+<testTreeRuleName>, expecting, actual);
+    }<\n><\n>
 >>
 
 testTreeRuleMethod2(methodName,testTreeRuleName,testRuleName,test,returnType,expecting) ::= <<
-	public void <methodName>() throws Exception {
-		// gunit test on line <test.line>
-		<returnType> retval = (<returnType>)execTreeParser(<testTreeRuleName>, <testRuleName>, "<test.inputEscaped>", <test.isFile>);
-		
-		assertTrue("testing rule "+<testTreeRuleName>, <expecting>);
-	}<\n><\n>
+    public void <methodName>() throws Exception {
+        // gunit test on line <test.line>
+        <returnType> retval = (<returnType>)execTreeParser(<testTreeRuleName>, <testRuleName>, "<test.inputEscaped>", <test.isFile>);
+
+        assertTrue("testing rule "+<testTreeRuleName>, <expecting>);
+    }<\n><\n>
 >>
 
 testRuleMethod(isLexicalRule,methodName,testRuleName,test,tokenType,expecting) ::= <<
-	public void <methodName>() throws Exception {
-		// gunit test on line <test.line>
-		Object retval = <if(isLexicalRule)>execLexer<else>execParser<endif>(<testRuleName>, <test.line>, "<test.inputEscaped>", <test.isFile>);
-		Object actual = examineExecResult(<tokenType>, retval);
-		Object expecting = <expecting>;
+    public void <methodName>() throws Exception {
+        // gunit test on line <test.line>
+        Object retval = <if(isLexicalRule)>execLexer<else>execParser<endif>(<testRuleName>, <test.line>, "<test.inputEscaped>", <test.isFile>);
+        Object actual = examineExecResult(<tokenType>, retval);
+        Object expecting = <expecting>;
 
-		assertEquals("testing rule "+<testRuleName>, expecting, actual);
-	}<\n><\n>
+        assertEquals("testing rule "+<testRuleName>, expecting, actual);
+    }<\n><\n>
 >>
 
 testRuleMethod2(methodName,testRuleName,test,returnType,expecting) ::= <<
-	public void <methodName>() throws Exception {
-		// gunit test on line <test.line>
-		<returnType> retval = (<returnType>)execParser(<testRuleName>, <test.line>, "<test.inputEscaped>", <test.isFile>);
+    public void <methodName>() throws Exception {
+        // gunit test on line <test.line>
+        <returnType> retval = (<returnType>)execParser(<testRuleName>, <test.line>, "<test.inputEscaped>", <test.isFile>);
 
-		assertTrue("testing rule "+<testRuleName>, <expecting>);
-	}<\n><\n>
+        assertTrue("testing rule "+<testRuleName>, <expecting>);
+    }<\n><\n>
 >>

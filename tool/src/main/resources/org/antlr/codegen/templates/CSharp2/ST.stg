@@ -55,8 +55,8 @@ protected StringTemplateGroup templateLib = new StringTemplateGroup("<name>Templ
 
 public StringTemplateGroup TemplateLib
 {
- 	get { return this.templateLib; }
- 	set { this.templateLib = value; }
+    get { return this.templateLib; }
+    set { this.templateLib = value; }
 }
 
 /// \<summary> Allows convenient multi-value initialization:

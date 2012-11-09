@@ -61,16 +61,16 @@ private <treeAdaptorType()> adaptor;
 
 public <treeAdaptorType()> TreeAdaptor
 {
-	get
-	{
-		return adaptor;
-	}
+    get
+    {
+        return adaptor;
+    }
 
-	set
-	{
-		this.adaptor = value;
-		<grammar.directDelegates:{g|<g:delegateName()>.TreeAdaptor = this.adaptor;}>
-	}
+    set
+    {
+        this.adaptor = value;
+        <grammar.directDelegates:{g|<g:delegateName()>.TreeAdaptor = this.adaptor;}>
+    }
 }
 >>
 
@@ -92,12 +92,12 @@ ruleLabelDefs(ruleDescriptor, labelType, ASTLabelType, rewriteElementType) ::= <
 <super.ruleLabelDefs(...)>
 <if(!ruleDescriptor.isSynPred)>
 <[ruleDescriptor.tokenLabels,ruleDescriptor.wildcardTreeLabels,ruleDescriptor.wildcardTreeListLabels]
-	:{it|<\n><ASTLabelType> <it.label.text>_tree = default(<ASTLabelType>);}>
+    :{it|<\n><ASTLabelType> <it.label.text>_tree = default(<ASTLabelType>);}>
 <ruleDescriptor.tokenListLabels:{it|<\n><ASTLabelType> <it.label.text>_tree = default(<ASTLabelType>);}>
 <ruleDescriptor.allTokenRefsInAltsWithRewrites
-	:{it|<\n>RewriteRule<rewriteElementType>Stream stream_<it>=new RewriteRule<rewriteElementType>Stream(adaptor,"token <it>");}>
+    :{it|<\n>RewriteRule<rewriteElementType>Stream stream_<it>=new RewriteRule<rewriteElementType>Stream(adaptor,"token <it>");}>
 <ruleDescriptor.allRuleRefsInAltsWithRewrites
-	:{it|<\n>RewriteRuleSubtreeStream stream_<it>=new RewriteRuleSubtreeStream(adaptor,"rule <it>");}>
+    :{it|<\n>RewriteRuleSubtreeStream stream_<it>=new RewriteRuleSubtreeStream(adaptor,"rule <it>");}>
 <endif>
 %>
 
@@ -167,15 +167,15 @@ ruleRefRuleRootTrackAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 // R e w r i t e
 
 rewriteCode(
-	alts, description,
-	referencedElementsDeep, // ALL referenced elements to right of ->
-	referencedTokenLabels,
-	referencedTokenListLabels,
-	referencedRuleLabels,
-	referencedRuleListLabels,
-	referencedWildcardLabels,
-	referencedWildcardListLabels,
-	rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::= <<
+    alts, description,
+    referencedElementsDeep, // ALL referenced elements to right of ->
+    referencedTokenLabels,
+    referencedTokenListLabels,
+    referencedRuleLabels,
+    referencedRuleListLabels,
+    referencedWildcardLabels,
+    referencedWildcardListLabels,
+    rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::= <<
 <\n>{
 // AST REWRITE
 // elements: <referencedElementsDeep; separator=", ">
@@ -195,7 +195,7 @@ root_0 = (<ASTLabelType>)adaptor.Nil();
 <if(TREE_PARSER&&rewriteMode)>
 <prevRuleRootRef()>.Tree = (<ASTLabelType>)adaptor.RulePostProcessing(root_0);
 if (<prevRuleRootRef()>.Tree != null)
-	input.ReplaceChildren(adaptor.GetParent(retval.Start), adaptor.GetChildIndex(retval.Start), adaptor.GetChildIndex(_last), retval.Tree);
+    input.ReplaceChildren(adaptor.GetParent(retval.Start), adaptor.GetChildIndex(retval.Start), adaptor.GetChildIndex(_last), retval.Tree);
 <endif>
 <! if parser or tree-parser && rewrite!=true, we need to set result !>
 <if(!TREE_PARSER||!rewriteMode)>
@@ -218,12 +218,12 @@ rewriteCodeLabels() ::= <<
     separator="\n"
 >
 <referencedWildcardLabels
-	:{it|RewriteRuleSubtreeStream stream_<it>=new RewriteRuleSubtreeStream(adaptor,"wildcard <it>",<it>);};
-	separator="\n"
+    :{it|RewriteRuleSubtreeStream stream_<it>=new RewriteRuleSubtreeStream(adaptor,"wildcard <it>",<it>);};
+    separator="\n"
 >
 <referencedWildcardListLabels
-	:{it|RewriteRuleSubtreeStream stream_<it>=new RewriteRuleSubtreeStream(adaptor,"wildcard <it>",list_<it>);};
-	separator="\n"
+    :{it|RewriteRuleSubtreeStream stream_<it>=new RewriteRuleSubtreeStream(adaptor,"wildcard <it>",list_<it>);};
+    separator="\n"
 >
 <referencedRuleLabels
     :{it|RewriteRuleSubtreeStream stream_<it>=new RewriteRuleSubtreeStream(adaptor,"rule <it>",<it>!=null?<it>.Tree:null);};
@@ -239,46 +239,46 @@ rewriteCodeLabels() ::= <<
   *  list rather shallow like other blocks.
   */
 rewriteOptionalBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 if (<referencedElementsDeep:{el | stream_<el>.HasNext}; separator="||">)
 {
-	<alt>
+    <alt>
 }
 <referencedElementsDeep:{el | stream_<el>.Reset();<\n>}>
 >>
 
 rewriteClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 while ( <referencedElements:{el | stream_<el>.HasNext}; separator="||"> )
 {
-	<alt>
+    <alt>
 }
 <referencedElements:{el | stream_<el>.Reset();<\n>}>
 >>
 
 rewritePositiveClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 if (!(<referencedElements:{el | stream_<el>.HasNext}; separator="||">))
 {
-	throw new RewriteEarlyExitException();
+    throw new RewriteEarlyExitException();
 }
 while ( <referencedElements:{el | stream_<el>.HasNext}; separator="||"> )
 {
-	<alt>
+    <alt>
 }
 <referencedElements:{el | stream_<el>.Reset();<\n>}>
 >>
@@ -288,11 +288,11 @@ rewriteAlt(a) ::= <<
 <if(a.pred)>
 if (<a.pred>)
 {
-	<a.alt>
+    <a.alt>
 }
 <else>
 {
-	<a.alt>
+    <a.alt>
 }
 <endif>
 >>

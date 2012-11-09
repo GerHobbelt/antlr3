@@ -31,8 +31,8 @@
 /** Add an adaptor property that knows how to build trees */
 @headerFile.members() ::= <<
 /* @headerFile.members() */
-pANTLR3_BASE_TREE_ADAPTOR	adaptor;
-pANTLR3_VECTOR_FACTORY		vectors;
+pANTLR3_BASE_TREE_ADAPTOR   adaptor;
+pANTLR3_VECTOR_FACTORY      vectors;
 /* End @headerFile.members() */
 >>
 
@@ -41,9 +41,9 @@ pANTLR3_VECTOR_FACTORY		vectors;
  */
 @genericParser.apifuncs() ::= <<
 <if(PARSER)>
-ADAPTOR	= ANTLR3_TREE_ADAPTORNew(instream->tstream->tokenSource->strFactory);<\n>
+ADAPTOR = ANTLR3_TREE_ADAPTORNew(instream->tstream->tokenSource->strFactory);<\n>
 <endif>
-ctx->vectors	= antlr3VectorFactoryNew(0);
+ctx->vectors    = antlr3VectorFactoryNew(0);
 >>
 
 @genericParser.cleanup() ::= <<
@@ -57,7 +57,7 @@ ADAPTOR->free(ADAPTOR);
 
 @returnScope.ruleReturnMembers() ::= <<
 
-<super.ASTLabelType()>	tree;
+<super.ASTLabelType()>  tree;
 
 >>
 
@@ -241,18 +241,18 @@ if (list_<label> == NULL)
 // R e w r i t e
 
 rewriteCode(
-	alts,
-	description,
-	referencedElementsDeep, // ALL referenced elements to right of ->
-	referencedTokenLabels,
-	referencedTokenListLabels,
-	referencedRuleLabels,
-	referencedRuleListLabels,
+    alts,
+    description,
+    referencedElementsDeep, // ALL referenced elements to right of ->
+    referencedTokenLabels,
+    referencedTokenListLabels,
+    referencedRuleLabels,
+    referencedRuleListLabels,
     referencedWildcardLabels,
     referencedWildcardListLabels,
-	rewriteBlockLevel,
-	enclosingTreeLevel,
-	treeLevel) ::=
+    rewriteBlockLevel,
+    enclosingTreeLevel,
+    treeLevel) ::=
 <<
 
 /* AST REWRITE
@@ -266,22 +266,22 @@ rewriteCode(
 if ( <actions.(actionScope).synpredgate> ) <\n>
 <endif>
 {
-	<rewriteCodeLabelsDecl()>
-	<rewriteCodeLabelsInit()>
-	root_0			    = (<ASTLabelType>)(ADAPTOR->nilNode(ADAPTOR));
-	<prevRuleRootRef()>.tree    = root_0;
-	<alts:rewriteAlt(); separator="else ">
-	<if(TREE_PARSER)>
-	<if(rewriteMode)>
-	<prevRuleRootRef()>.tree = (<ASTLabelType>)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
-	INPUT->replaceChildren(INPUT, ADAPTOR->getParent(ADAPTOR, retval.start),
+    <rewriteCodeLabelsDecl()>
+    <rewriteCodeLabelsInit()>
+    root_0              = (<ASTLabelType>)(ADAPTOR->nilNode(ADAPTOR));
+    <prevRuleRootRef()>.tree    = root_0;
+    <alts:rewriteAlt(); separator="else ">
+    <if(TREE_PARSER)>
+    <if(rewriteMode)>
+    <prevRuleRootRef()>.tree = (<ASTLabelType>)(ADAPTOR->rulePostProcessing(ADAPTOR, root_0));
+    INPUT->replaceChildren(INPUT, ADAPTOR->getParent(ADAPTOR, retval.start),
                       ADAPTOR->getChildIndex(ADAPTOR, retval.start),
                       ADAPTOR->getChildIndex(ADAPTOR, _last),
                       retval.tree);
-	<endif>
-	<endif>
-	<prevRuleRootRef()>.tree = root_0; // set result root
-	<rewriteCodeLabelsFree()>
+    <endif>
+    <endif>
+    <prevRuleRootRef()>.tree = root_0; // set result root
+    <rewriteCodeLabelsFree()>
 
 }
 >>
@@ -346,36 +346,36 @@ separator="\n"
   *  list rather shallow like other blocks.
   */
 rewriteOptionalBlock(
-	alt,
-	rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements,		// elements in immediately block; no nested blocks
-	description) ::=
+    alt,
+    rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements,     // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 {
-	if ( <referencedElementsDeep:{el | (stream_<el> != NULL && stream_<el>->hasNext(stream_<el>)) }; separator="|| "> )
-	{
-		<alt>
-	}
-	<referencedElementsDeep:{el | if ( stream_<el> != NULL) stream_<el>->reset(stream_<el>);<\n>}>
+    if ( <referencedElementsDeep:{el | (stream_<el> != NULL && stream_<el>->hasNext(stream_<el>)) }; separator="|| "> )
+    {
+        <alt>
+    }
+    <referencedElementsDeep:{el | if ( stream_<el> != NULL) stream_<el>->reset(stream_<el>);<\n>}>
 }<\n>
 >>
 
 rewriteClosureBlock(
-	alt,
-	rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements,		// elements in immediately block; no nested blocks
-	description) ::=
+    alt,
+    rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements,     // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 {
-	while ( <referencedElements:{el | (stream_<el> != NULL && stream_<el>->hasNext(stream_<el>)) }; separator="|| "> )
-	{
-		<alt>
-	}
-	<referencedElements:{el | if (stream_<el> != NULL) stream_<el>->reset(stream_<el>);<\n>}>
+    while ( <referencedElements:{el | (stream_<el> != NULL && stream_<el>->hasNext(stream_<el>)) }; separator="|| "> )
+    {
+        <alt>
+    }
+    <referencedElements:{el | if (stream_<el> != NULL) stream_<el>->reset(stream_<el>);<\n>}>
 }<\n>
 >>
 RewriteEarlyExitException() ::=
@@ -385,11 +385,11 @@ EXCEPTION->type         = ANTLR3_REWRITE_EARLY_EXCEPTION;
 EXCEPTION->name         = (void *)ANTLR3_REWRITE_EARLY_EXCEPTION_NAME;
 >>
 rewritePositiveClosureBlock(
-	alt,
-	rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements,		// elements in immediately block; no nested blocks
-	description) ::=
+    alt,
+    rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements,     // elements in immediately block; no nested blocks
+    description) ::=
 <<
 if (<referencedElements:{el | (stream_<el> == NULL || !stream_<el>->hasNext(stream_<el>)) }; separator="|| "> )
 {
@@ -397,10 +397,10 @@ if (<referencedElements:{el | (stream_<el> == NULL || !stream_<el>->hasNext(stre
 }
 else
 {
-	while ( <referencedElements:{el | (stream_<el>->hasNext(stream_<el>)) }; separator="|| "> ) {
-		<alt>
-	}
-	<referencedElements:{el | stream_<el>->reset(stream_<el>);<\n>}>
+    while ( <referencedElements:{el | (stream_<el>->hasNext(stream_<el>)) }; separator="|| "> ) {
+        <alt>
+    }
+    <referencedElements:{el | stream_<el>->reset(stream_<el>);<\n>}>
 }
 >>
 
@@ -534,9 +534,9 @@ createImaginaryNode(tokenType,terminalOptions,args) ::= <<
 <if(args)>
 
 #if <length(args)> == 2
-	(<ASTLabelType>)ADAPTOR->createTypeTokenText(ADAPTOR, <tokenType>, TOKTEXT(<args; separator=", ">))
+    (<ASTLabelType>)ADAPTOR->createTypeTokenText(ADAPTOR, <tokenType>, TOKTEXT(<args; separator=", ">))
 #else
-	(<ASTLabelType>)ADAPTOR->createTypeText(ADAPTOR, <tokenType>, (pANTLR3_UINT8)<args; separator=", ">)
+    (<ASTLabelType>)ADAPTOR->createTypeText(ADAPTOR, <tokenType>, (pANTLR3_UINT8)<args; separator=", ">)
 #endif
 
 <else>
@@ -551,7 +551,7 @@ createRewriteNodeFromElement(token,terminalOptions,args) ::= <<
 <else>
 <if(args)> <! must create new node from old !>
 
-#if	<length(args)> == 2
+#if <length(args)> == 2
 ADAPTOR->createTypeTokenText(ADAPTOR, <token>->getType(<token>, TOKTEXT(<token>, <args; separator=", ">)) /* JIMI */
 #else
 ADAPTOR->createTypeToken(ADAPTOR, <token>->getType(<token>, <token>, <args; separator=", ">)

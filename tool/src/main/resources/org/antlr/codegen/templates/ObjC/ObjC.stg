@@ -52,11 +52,11 @@ objcTypeInitMap ::= [
 // System.Boolean.ToString() returns "True" and "False", but the proper C# literals are "true" and "false"
 // The Java version of Boolean returns "true" and "false", so they map to themselves here.
 booleanLiteral ::= [
-	"True":"true",
-	"False":"false",
-	"true":"YES",
-	"false":"NO",
-	default:"NO"
+    "True":"true",
+    "False":"false",
+    "true":"YES",
+    "false":"NO",
+    default:"NO"
 ]
 
 
@@ -316,7 +316,7 @@ lexer(  grammar,
 /** As per Terence: No returns for lexer rules! */
 <!
 #pragma mark Rule return scopes start
-<rules:{rule | <rule.ruleDescriptor:{ruleDescriptor | 
+<rules:{rule | <rule.ruleDescriptor:{ruleDescriptor |
 <returnScopeImplementation(scope=ruleDescriptor.returnScope)>}>
 }>
 #pragma mark Rule return scopes end
@@ -1535,7 +1535,7 @@ const static NSInteger dfa<dfa.decisionNumber>_special[<dfa.numberOfStates>] =
     {<dfa.special; wrap="\n     ", separator=",", null="-1">};
 
 /** Used when there is no transition table entry for a particular state */
-#define dfa<dfa.decisionNumber>_T_empty	    nil
+#define dfa<dfa.decisionNumber>_T_empty     nil
 
 <dfa.edgeTransitionClassMap.keys:{ table |
 const static NSInteger dfa<dfa.decisionNumber>_T<i0>[] =

@@ -95,7 +95,7 @@ AMutableArray *ruleNames = [AMutableArray arrayWithArray:{
 >>
 
 @genericParser.init() ::= <<
-ruleNames = [NSArray arrayWithObjects:<rules:{rST | @"<rST.ruleName>"}; separator=", ", wrap="\n	">, nil];<\n>
+ruleNames = [NSArray arrayWithObjects:<rules:{rST | @"<rST.ruleName>"}; separator=", ", wrap="\n    ">, nil];<\n>
 >>
 
 @genericParser.dealloc() ::= <<
@@ -105,8 +105,8 @@ ruleNames = [NSArray arrayWithObjects:<rules:{rST | @"<rST.ruleName>"}; separato
 @genericParser.methods() ::= <<
 -(BOOL) evalPredicate:(NSString *)predicate matched:(BOOL)result
 {
-	[debugListener semanticPredicate:predicate matched:result];
-	return result;
+    [debugListener semanticPredicate:predicate matched:result];
+    return result;
 }<\n>
 >>
 

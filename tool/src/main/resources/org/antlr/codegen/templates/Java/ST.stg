@@ -59,10 +59,10 @@ public StringTemplateGroup getTemplateLib() {
  */
 @SuppressWarnings("serial")
 public static class STAttrMap extends HashMap\<String, Object> {
-	public STAttrMap put(String attrName, Object value) {
-		super.put(attrName, value);
-		return this;
-	}
+    public STAttrMap put(String attrName, Object value) {
+        super.put(attrName, value);
+        return this;
+    }
 }
 >>
 
@@ -104,11 +104,11 @@ rewriteTemplateAlt(alt) ::= <<
 // <alt.description>
 <if(alt.pred)>
 if (<alt.pred>) {
-	retval.st = <alt.alt>;
+    retval.st = <alt.alt>;
 }<\n>
 <else>
 {
-	retval.st = <alt.alt>;
+    retval.st = <alt.alt>;
 }<\n>
 <endif>
 >>

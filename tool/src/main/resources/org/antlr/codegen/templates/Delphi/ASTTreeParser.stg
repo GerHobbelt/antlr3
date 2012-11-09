@@ -132,9 +132,9 @@ begin<\n>
 <if(terminalOptions.node)>
 <label>_tree := T<terminalOptions.node>.Create(<label>);
 <else>
-	<label>_tree := Adaptor.DupNode(<label>) as I<ASTLabelType>;
+    <label>_tree := Adaptor.DupNode(<label>) as I<ASTLabelType>;
 <endif><\n>
-	Adaptor.AddChild(Root[<treeLevel>], <label>_tree);
+    Adaptor.AddChild(Root[<treeLevel>], <label>_tree);
 <if(backtracking)>
 end;
 <endif>
@@ -162,9 +162,9 @@ begin
 <if(terminalOptions.node)>
 <label>_tree := T<terminalOptions.node>.Create(<label>);
 <else>
-	<label>_tree := Adaptor.DupNode(<label>) as I<ASTLabelType>;
+    <label>_tree := Adaptor.DupNode(<label>) as I<ASTLabelType>;
 <endif><\n>
-	Root[<treeLevel>] := Adaptor.BecomeRoot(<label>_tree, Root[<treeLevel>]) as I<ASTLabelType>;
+    Root[<treeLevel>] := Adaptor.BecomeRoot(<label>_tree, Root[<treeLevel>]) as I<ASTLabelType>;
 <if(backtracking)>
 end;
 <endif>

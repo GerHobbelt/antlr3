@@ -28,15 +28,15 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 scalaTypeInitMap ::= [
-	"Int":"0",
-	"Long":"0",
-	"Float":"0.0f",
-	"Double":"0.0",
-	"Boolean":"false",
-	"Byte":"0",
-	"Short":"0",
-	"Char":"0",
-	default:"null" // anything other than an atomic type
+    "Int":"0",
+    "Long":"0",
+    "Float":"0.0f",
+    "Double":"0.0",
+    "Boolean":"false",
+    "Byte":"0",
+    "Short":"0",
+    "Char":"0",
+    default:"null" // anything other than an atomic type
 ]
 
 /** The overall file structure of a recognizer; stores methods for rules
@@ -45,10 +45,10 @@ scalaTypeInitMap ::= [
 outputFile(LEXER,PARSER,TREE_PARSER, actionScope, actions,
            docComment, recognizer,
            name, tokens, tokenNames, rules, cyclicDFAs,
-	   bitsets, buildTemplate, buildAST, rewriteMode, profile,
-	   backtracking, synpreds, memoize, numRules,
-	   fileName, ANTLRVersion, generatedTimestamp, trace,
-	   scopes, superClass, literals) ::=
+       bitsets, buildTemplate, buildAST, rewriteMode, profile,
+       backtracking, synpreds, memoize, numRules,
+       fileName, ANTLRVersion, generatedTimestamp, trace,
+       scopes, superClass, literals) ::=
 <<
 // $ANTLR <ANTLRVersion> <fileName> <generatedTimestamp>
 <actions.(actionScope).header>
@@ -130,11 +130,11 @@ override def nextToken(): Token = {
             return eof
         }
         state.token = null
-	state.channel = Token.DEFAULT_CHANNEL
+    state.channel = Token.DEFAULT_CHANNEL
         state.tokenStartCharIndex = input.index()
         state.tokenStartCharPositionInLine = input.getCharPositionInLine()
         state.tokenStartLine = input.getLine()
-	state.text = null
+    state.text = null
         try {
             val m = input.mark()
             state.backtracking=1 <! means we won't throw slow exception !>
@@ -162,8 +162,8 @@ override def nextToken(): Token = {
 }
 
 override def memoize(input: IntStream,
-		ruleIndex: Int,
-		ruleStartIndex: Int) = {
+        ruleIndex: Int,
+        ruleStartIndex: Int) = {
 if ( state.backtracking>1 ) super.memoize(input, ruleIndex, ruleStartIndex)
 }
 
@@ -370,7 +370,7 @@ final def <ruleName>(<ruleDescriptor.parameterScope:parameterScope()>): <returnT
         case re: RecognitionException =>
         reportError(re)
         recover(input,re)
-	<@setErrorReturnValue()>
+    <@setErrorReturnValue()>
     }<\n>
 <endif>
 <endif>
@@ -582,10 +582,10 @@ while (!loop<decisionNumber>_quitflag) {
     <@postdecision()>
     alt<decisionNumber> match {
         <alts:{a | <altSwitchCase(i,a)>}>
-	case _ =>
-	    if ( cnt<decisionNumber> >= 1 ) loop<decisionNumber>_quitflag = true
-	    else {
-	    <ruleBacktrackFailure()>
+    case _ =>
+        if ( cnt<decisionNumber> >= 1 ) loop<decisionNumber>_quitflag = true
+        else {
+        <ruleBacktrackFailure()>
             val eee = new EarlyExitException(<decisionNumber>, input)
             <@earlyExitException()>
             throw eee
@@ -611,7 +611,7 @@ while (!loop<decisionNumber>_quitflag) {
     <@postdecision()>
     alt<decisionNumber> match {
         <alts:{a | <altSwitchCase(i,a)>}>
-	case _ => loop<decisionNumber>_quitflag = true
+    case _ => loop<decisionNumber>_quitflag = true
     }
 }
 <@postloop()>
@@ -1060,7 +1060,7 @@ class DFA<dfa.decisionNumber> extends DFA {
         <if(TREE_PARSER)>
         val input = _input.asInstanceOf[TreeNodeStream]
         <endif>
-    	val _s = s
+        val _s = s
         s match {
         <dfa.specialStateSTs:{state |
         case <i0> => <! compressed special state numbers 0..n-1 !>

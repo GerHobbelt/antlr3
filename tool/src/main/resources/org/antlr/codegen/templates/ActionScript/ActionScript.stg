@@ -27,11 +27,11 @@
 */
 
 asTypeInitMap ::= [
-	"int":"0",
-	"uint":"0",
-	"Number":"0.0",
-	"Boolean":"false",
-	default:"null" // anything other than an atomic type
+    "int":"0",
+    "uint":"0",
+    "Number":"0.0",
+    "Boolean":"false",
+    default:"null" // anything other than an atomic type
 ]
 
 /** The overall file structure of a recognizer; stores methods for rules
@@ -40,10 +40,10 @@ asTypeInitMap ::= [
 outputFile(LEXER,PARSER,TREE_PARSER, actionScope, actions,
            docComment, recognizer,
            name, tokens, tokenNames, rules, cyclicDFAs,
-	   bitsets, buildTemplate, buildAST, rewriteMode, profile,
-	   backtracking, synpreds, memoize, numRules,
-	   fileName, ANTLRVersion, generatedTimestamp, trace,
-	   scopes, superClass, literals) ::=
+       bitsets, buildTemplate, buildAST, rewriteMode, profile,
+       backtracking, synpreds, memoize, numRules,
+       fileName, ANTLRVersion, generatedTimestamp, trace,
+       scopes, superClass, literals) ::=
 <<
 // $ANTLR <ANTLRVersion> <fileName> <generatedTimestamp>
 package<if(actions.(actionScope).package)> <actions.(actionScope).package><endif> {
@@ -116,11 +116,11 @@ public override function nextToken():Token {
             return TokenConstants.EOF_TOKEN;
         }
         this.state.token = null;
-	    this.state.channel = TokenConstants.DEFAULT_CHANNEL;
+        this.state.channel = TokenConstants.DEFAULT_CHANNEL;
         this.state.tokenStartCharIndex = input.index;
         this.state.tokenStartCharPositionInLine = input.charPositionInLine;
         this.state.tokenStartLine = input.line;
-	    this.state.text = null;
+        this.state.text = null;
         try {
             var m:int = input.mark();
             this.state.backtracking=1; <! means we won't throw slow exception !>
@@ -149,8 +149,8 @@ public override function nextToken():Token {
 }
 
 public override function memoize(input:IntStream,
-		ruleIndex:int,
-		ruleStartIndex:int):void
+        ruleIndex:int,
+        ruleStartIndex:int):void
 {
 if ( this.state.backtracking>1 ) super.memoize(input, ruleIndex, ruleStartIndex);
 }
@@ -552,10 +552,10 @@ do {
     <decision>
     <@postdecision()>
     switch (alt<decisionNumber>) {
-	<alts:{a | <altSwitchCase(i, a)>}>
-	default :
-	    if ( cnt<decisionNumber> >= 1 ) break loop<decisionNumber>;
-	    <ruleBacktrackFailure()>
+    <alts:{a | <altSwitchCase(i, a)>}>
+    default :
+        if ( cnt<decisionNumber> >= 1 ) break loop<decisionNumber>;
+        <ruleBacktrackFailure()>
             throw new EarlyExitException(<decisionNumber>, input);
             <! Need to add support for earlyExitException debug hook !>
     }
@@ -578,9 +578,9 @@ do {
     <decision>
     <@postdecision()>
     switch (alt<decisionNumber>) {
-	<alts:{a | <altSwitchCase(i, a)>}>
-	default :
-	    break loop<decisionNumber>;
+    <alts:{a | <altSwitchCase(i, a)>}>
+    default :
+        break loop<decisionNumber>;
     }
 } while (true);
 <@postloop()>
@@ -997,7 +997,7 @@ private const DFA<dfa.decisionNumber>_transition:Array = [
         <if(TREE_PARSER)>
         var input:TreeNodeStream = TreeNodeStream(_input);
         <endif>
-    	var _s:int = s;
+        var _s:int = s;
         switch ( s ) {
         <dfa.specialStateSTs:{state |
         case <i0> : <! compressed special state numbers 0..n-1 !>

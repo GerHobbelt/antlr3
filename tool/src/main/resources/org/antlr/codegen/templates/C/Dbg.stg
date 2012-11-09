@@ -35,38 +35,38 @@
 <if(grammar.grammarIsRoot)>
 const char *
 ruleNames[] =
-	{
-		"invalidRule", <grammar.allImportedRules:{rST | "<rST.name>"}; wrap="\n		", separator=", ">
-	};<\n>
+    {
+        "invalidRule", <grammar.allImportedRules:{rST | "<rST.name>"}; wrap="\n     ", separator=", ">
+    };<\n>
 <endif>
 <if(grammar.grammarIsRoot)> <! grammar imports other grammar(s) !>
 static ANTLR3_UINT32 ruleLevel = 0;
 static ANTLR3_UINT32 getRuleLevel()
 {
-	return ruleLevel;
+    return ruleLevel;
 }
 static void incRuleLevel()
 {
-	ruleLevel++;
+    ruleLevel++;
 }
 static void decRuleLevel()
 {
-	ruleLevel--;
+    ruleLevel--;
 }
 <else> <! imported grammar !>
 static ANTLR3_UINT32
 getRuleLevel()
 {
-	return <grammar.delegators:{g| <g:delegateName()>}>->getRuleLevel();
+    return <grammar.delegators:{g| <g:delegateName()>}>->getRuleLevel();
 }
 static void incRuleLevel()
 {
-	<grammar.delegators:{g| <g:delegateName()>}>->incRuleLevel();
+    <grammar.delegators:{g| <g:delegateName()>}>->incRuleLevel();
 }
 static void
 decRuleLevel()
 {
-	<grammar.delegators:{g| <g:delegateName()>}>.decRuleLevel();
+    <grammar.delegators:{g| <g:delegateName()>}>.decRuleLevel();
 }
 <endif>
 <if(profile)>
@@ -107,23 +107,23 @@ ctorForPredefinedListener() ::= <<
 
 createListenerAndHandshake() ::= <<
 {
-	// DEBUG MODE code
-	//
-	pANTLR3_DEBUG_EVENT_LISTENER	 proxy;
-	proxy = antlr3DebugListenerNew();
-	proxy->grammarFileName = INPUT->tokenSource->strFactory->newStr8(INPUT->tokenSource->strFactory, (pANTLR3_UINT8)ctx->getGrammarFileName());
+    // DEBUG MODE code
+    //
+    pANTLR3_DEBUG_EVENT_LISTENER     proxy;
+    proxy = antlr3DebugListenerNew();
+    proxy->grammarFileName = INPUT->tokenSource->strFactory->newStr8(INPUT->tokenSource->strFactory, (pANTLR3_UINT8)ctx->getGrammarFileName());
 
 <if(TREE_PARSER)>
-	proxy->adaptor = ADAPTOR;
+    proxy->adaptor = ADAPTOR;
 <endif>
-	PARSER->setDebugListener(PARSER, proxy);
+    PARSER->setDebugListener(PARSER, proxy);
 
-	// Try to connect to the debugger (waits forever for a connection)
-	//
-	proxy->handshake(proxy);
+    // Try to connect to the debugger (waits forever for a connection)
+    //
+    proxy->handshake(proxy);
 
-	// End DEBUG MODE code
-	//
+    // End DEBUG MODE code
+    //
 }
 >>
 
@@ -131,7 +131,7 @@ createListenerAndHandshake() ::= <<
 @rule.preamble() ::= <<
 if ( getRuleLevel()==0 )
 {
-	DBG->commence(DBG);
+    DBG->commence(DBG);
 }
 DBG->enterRule(DBG, getGrammarFileName(), (const char *)"<ruleName>");
 incRuleLevel();
@@ -144,7 +144,7 @@ DBG->exitRule(DBG, getGrammarFileName(), (const char *)"<ruleName>");
 decRuleLevel();
 if ( getRuleLevel()==0 )
 {
-	DBG->terminate(DBG);
+    DBG->terminate(DBG);
 }
 <\n>
 >>
@@ -223,7 +223,7 @@ dfaDecision(decisionNumber,description) ::= <<
 alt<decisionNumber> = cdfa<decisionNumber>.predict(ctx, RECOGNIZER, ISTREAM, &cdfa<decisionNumber>);
 if  (HASEXCEPTION())
 {
-	DBG->recognitionException(DBG, EXCEPTION);
+    DBG->recognitionException(DBG, EXCEPTION);
     goto rule<ruleDescriptor.name>Ex;
 }
 <checkRuleBacktrackFailure()>
