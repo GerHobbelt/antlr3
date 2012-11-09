@@ -57,7 +57,7 @@ org.antlr.runtime.RecognitionException = function(input) {
 org.antlr.lang.extend(org.antlr.runtime.RecognitionException, Error,
 /** @lends org.antlr.runtime.RecognitionException.prototype */
 {
-	/**
+    /**
      * What input stream did the error occur in?
      */
     input: null,
@@ -65,32 +65,32 @@ org.antlr.lang.extend(org.antlr.runtime.RecognitionException, Error,
     /** What is index of token/char were we looking at when the error occurred?
      *  @type Number
      */
-	index: null,
+    index: null,
 
-	/** The current Token when an error occurred.  Since not all streams
-	 *  can retrieve the ith Token, we have to track the Token object.
-	 *  For parsers.  Even when it's a tree parser, token might be set.
+    /** The current Token when an error occurred.  Since not all streams
+     *  can retrieve the ith Token, we have to track the Token object.
+     *  For parsers.  Even when it's a tree parser, token might be set.
      *  @type org.antlr.runtime.CommonToken
-	 */
-	token: null,
+     */
+    token: null,
 
-	/** If this is a tree parser exception, node is set to the node with
-	 *  the problem.
+    /** If this is a tree parser exception, node is set to the node with
+     *  the problem.
      *  @type Object
-	 */
-	node: null,
+     */
+    node: null,
 
-	/** The current char when an error occurred. For lexers.
+    /** The current char when an error occurred. For lexers.
      *  @type Number
      */
-	c: null,
+    c: null,
 
-	/** Track the line at which the error occurred in case this is
-	 *  generated from a lexer.  We need to track this since the
-	 *  unexpected char doesn't carry the line info.
+    /** Track the line at which the error occurred in case this is
+     *  generated from a lexer.  We need to track this since the
+     *  unexpected char doesn't carry the line info.
      *  @type Number
-	 */
-	line: null,
+     */
+    line: null,
 
     /** The exception's class name.
      *  @type String
@@ -100,82 +100,82 @@ org.antlr.lang.extend(org.antlr.runtime.RecognitionException, Error,
     /** Position in the line where exception occurred.
      *  @type Number
      */
-	charPositionInLine: null,
+    charPositionInLine: null,
 
-	/** If you are parsing a tree node stream, you will encounter som
-	 *  imaginary nodes w/o line/col info.  We now search backwards looking
-	 *  for most recent token with line/col info, but notify getErrorHeader()
-	 *  that info is approximate.
+    /** If you are parsing a tree node stream, you will encounter som
+     *  imaginary nodes w/o line/col info.  We now search backwards looking
+     *  for most recent token with line/col info, but notify getErrorHeader()
+     *  that info is approximate.
      *  @type Boolean
-	 */
-	approximateLineInfo: null,
+     */
+    approximateLineInfo: null,
 
     /** Gather exception information from input stream.
      *  @param {org.antlr.runtime.CommonTokenStream|org.antlr.runtime.tree.TreeNodeStream|org.antlr.runtime.ANTLRStringStream} input input stream that has an exception.
      */
-	extractInformationFromTreeNodeStream: function(input) {
-		var nodes = input,
+    extractInformationFromTreeNodeStream: function(input) {
+        var nodes = input,
             priorNode,
             priorPayload,
             type,
             text,
             i;
 
-		this.node = nodes.LT(1);
-		var adaptor = nodes.getTreeAdaptor(),
-		    payload = adaptor.getToken(this.node);
-		if ( payload ) {
-			this.token = payload;
-			if ( payload.getLine()<= 0 ) {
-				// imaginary node; no line/pos info; scan backwards
-				i = -1;
-				priorNode = nodes.LT(i);
-				while ( priorNode ) {
-					priorPayload = adaptor.getToken(priorNode);
-					if ( priorPayload && priorPayload.getLine()>0 ) {
-						// we found the most recent real line / pos info
-						this.line = priorPayload.getLine();
-						this.charPositionInLine = priorPayload.getCharPositionInLine();
-						this.approximateLineInfo = true;
-						break;
-					}
-					--i;
-					priorNode = nodes.LT(i);
-				}
-			}
-			else { // node created from real token
-				this.line = payload.getLine();
-				this.charPositionInLine = payload.getCharPositionInLine();
-			}
-		}
-		else if ( this.node instanceof org.antlr.runtime.tree.Tree) {
-			this.line = this.node.getLine();
-			this.charPositionInLine = this.node.getCharPositionInLine();
-			if ( this.node instanceof org.antlr.runtime.tree.CommonTree) {
-				this.token = this.node.token;
-			}
-		}
-		else {
-			type = adaptor.getType(this.node);
-			text = adaptor.getText(this.node);
-			this.token = new org.antlr.runtime.CommonToken(type, text);
-		}
-	},
+        this.node = nodes.LT(1);
+        var adaptor = nodes.getTreeAdaptor(),
+            payload = adaptor.getToken(this.node);
+        if ( payload ) {
+            this.token = payload;
+            if ( payload.getLine()<= 0 ) {
+                // imaginary node; no line/pos info; scan backwards
+                i = -1;
+                priorNode = nodes.LT(i);
+                while ( priorNode ) {
+                    priorPayload = adaptor.getToken(priorNode);
+                    if ( priorPayload && priorPayload.getLine()>0 ) {
+                        // we found the most recent real line / pos info
+                        this.line = priorPayload.getLine();
+                        this.charPositionInLine = priorPayload.getCharPositionInLine();
+                        this.approximateLineInfo = true;
+                        break;
+                    }
+                    --i;
+                    priorNode = nodes.LT(i);
+                }
+            }
+            else { // node created from real token
+                this.line = payload.getLine();
+                this.charPositionInLine = payload.getCharPositionInLine();
+            }
+        }
+        else if ( this.node instanceof org.antlr.runtime.tree.Tree) {
+            this.line = this.node.getLine();
+            this.charPositionInLine = this.node.getCharPositionInLine();
+            if ( this.node instanceof org.antlr.runtime.tree.CommonTree) {
+                this.token = this.node.token;
+            }
+        }
+        else {
+            type = adaptor.getType(this.node);
+            text = adaptor.getText(this.node);
+            this.token = new org.antlr.runtime.CommonToken(type, text);
+        }
+    },
 
-	/** Return the token type or char of the unexpected input element
+    /** Return the token type or char of the unexpected input element
      *  @return {Number} type of the unexpected input element.
      */
     getUnexpectedType: function() {
-		if ( this.input instanceof org.antlr.runtime.TokenStream ) {
-			return this.token.getType();
-		}
-		else if ( this.input instanceof org.antlr.runtime.tree.TreeNodeStream ) {
-			var nodes = this.input;
-			var adaptor = nodes.getTreeAdaptor();
-			return adaptor.getType(this.node);
-		}
-		else {
-			return this.c;
-		}
-	}
+        if ( this.input instanceof org.antlr.runtime.TokenStream ) {
+            return this.token.getType();
+        }
+        else if ( this.input instanceof org.antlr.runtime.tree.TreeNodeStream ) {
+            var nodes = this.input;
+            var adaptor = nodes.getTreeAdaptor();
+            return adaptor.getType(this.node);
+        }
+        else {
+            return this.c;
+        }
+    }
 });

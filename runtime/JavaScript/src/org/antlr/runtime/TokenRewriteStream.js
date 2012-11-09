@@ -119,7 +119,7 @@ org.antlr.lang.extend(trs.InsertBeforeOp, trs.RewriteOperation, {
  *  instructions.
  */
 trs.ReplaceOp = function(from, to, text) {
-    trs.ReplaceOp.superclass.constructor.call(this, from, text); 
+    trs.ReplaceOp.superclass.constructor.call(this, from, text);
     this.lastIndex = to;
 };
 org.antlr.lang.extend(trs.ReplaceOp, trs.RewriteOperation, {
@@ -132,7 +132,7 @@ org.antlr.lang.extend(trs.ReplaceOp, trs.RewriteOperation, {
 });
 
 trs.DeleteOp = function(from, to) {
-    trs.DeleteOp.superclass.constructor.call(this, from, to); 
+    trs.DeleteOp.superclass.constructor.call(this, from, to);
 };
 org.antlr.lang.extend(trs.DeleteOp, trs.ReplaceOp);
 
@@ -301,7 +301,7 @@ org.antlr.lang.extend(trs, org.antlr.runtime.CommonTokenStream, {
             first = arguments[1];
             last = arguments[2];
             text = arguments[3];
-        } 
+        }
 
         if (first instanceof org.antlr.runtime.Token) {
             first = first.index;

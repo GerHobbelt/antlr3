@@ -9,11 +9,11 @@ org.antlr.runtime.Parser = function(input, state) {
 org.antlr.lang.extend(org.antlr.runtime.Parser, org.antlr.runtime.BaseRecognizer, {
     reset: function() {
         // reset all recognizer state variables
-		org.antlr.runtime.Parser.superclass.reset.call(this);
-		if ( org.antlr.lang.isValue(this.input) ) {
-			this.input.seek(0); // rewind the input
-		}
-	},
+        org.antlr.runtime.Parser.superclass.reset.call(this);
+        if ( org.antlr.lang.isValue(this.input) ) {
+            this.input.seek(0); // rewind the input
+        }
+    },
 
     getCurrentInputSymbol: function(input) {
         return input.LT(1);
@@ -44,28 +44,28 @@ org.antlr.lang.extend(org.antlr.runtime.Parser, org.antlr.runtime.BaseRecognizer
     },
 
 
-	/** Set the token stream and reset the parser */
+    /** Set the token stream and reset the parser */
     setTokenStream: function(input) {
-		this.input = null;
-		this.reset();
-		this.input = input;
-	},
+        this.input = null;
+        this.reset();
+        this.input = input;
+    },
 
     getTokenStream: function() {
-		return this.input;
-	},
+        return this.input;
+    },
 
     getSourceName: function() {
         return this.input.getSourceName();
     },
 
     traceIn: function(ruleName, ruleIndex)  {
-		org.antlr.runtime.Parser.superclass.traceIn.call(
+        org.antlr.runtime.Parser.superclass.traceIn.call(
                 this, ruleName, ruleIndex, this.input.LT(1));
-	},
+    },
 
     traceOut: function(ruleName, ruleIndex)  {
-		org.antlr.runtime.Parser.superclass.traceOut.call(
+        org.antlr.runtime.Parser.superclass.traceOut.call(
                 this, ruleName, ruleIndex, this.input.LT(1));
-	}
+    }
 });

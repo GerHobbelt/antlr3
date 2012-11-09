@@ -30,7 +30,7 @@ org.antlr.lang.extend(org.antlr.runtime.tree.BaseTree,
             if ( t.getType()===type ) {
                 return t;
             }
-        }    
+        }
         return null;
     },
 

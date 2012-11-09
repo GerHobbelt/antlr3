@@ -22,7 +22,7 @@ org.antlr.lang.extend(
 {
     /** Create a string representation of this exception.
      *  @returns {String}
-     */ 
+     */
     toString: function() {
         return "FailedPredicateException("+this.ruleName+",{"+this.predicateText+"}?)";
     },

@@ -278,7 +278,7 @@ org.antlr.lang.extend(org.antlr.runtime.Lexer, org.antlr.runtime.BaseRecognizer,
     },
 
     traceOut: function(ruleName, ruleIndex)  {
-		var inputSymbol = String.fromCharCode(this.input.LT(1))+" line="+this.getLine()+":"+this.getCharPositionInLine();
-		org.antlr.runtime.Lexer.superclass.traceOut.call(this, ruleName, ruleIndex, inputSymbol);
-	}
+        var inputSymbol = String.fromCharCode(this.input.LT(1))+" line="+this.getLine()+":"+this.getCharPositionInLine();
+        org.antlr.runtime.Lexer.superclass.traceOut.call(this, ruleName, ruleIndex, inputSymbol);
+    }
 });

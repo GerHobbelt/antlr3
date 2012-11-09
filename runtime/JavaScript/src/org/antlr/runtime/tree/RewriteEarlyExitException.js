@@ -11,5 +11,5 @@ org.antlr.lang.extend(org.antlr.runtime.tree.RewriteEarlyExitException,
                   org.antlr.runtime.tree.RewriteCardinalityException, {
     name: function() {
         return "org.antlr.runtime.tree.RewriteEarlyExitException";
-    }    
+    }
 });

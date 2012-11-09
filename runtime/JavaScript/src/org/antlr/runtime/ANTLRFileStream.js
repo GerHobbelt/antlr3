@@ -1,4 +1,4 @@
-/** 
+/**
  * Loads the contents of a file all at once and passes its contents off to
  * {@link org.antlr.runtime.ANTLRStringStream}.
  * Currently this class can only be used in the Rhino JS interpreter.

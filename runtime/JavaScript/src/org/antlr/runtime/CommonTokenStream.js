@@ -20,7 +20,7 @@ org.antlr.runtime.CommonTokenStream = function(tokenSource, channel) {
 org.antlr.runtime.TokenStream = function() {};
 
 org.antlr.lang.extend(org.antlr.runtime.CommonTokenStream,
-                      org.antlr.runtime.TokenStream,       
+                      org.antlr.runtime.TokenStream,
 {
     /** Reset this token stream by setting its token source. */
     setTokenSource: function(tokenSource) {
@@ -39,7 +39,7 @@ org.antlr.lang.extend(org.antlr.runtime.CommonTokenStream,
             t = this.tokenSource.nextToken(),
             discard,
             channelI;
-        while ( org.antlr.lang.isValue(t) && 
+        while ( org.antlr.lang.isValue(t) &&
                 t.getType()!=org.antlr.runtime.CharStream.EOF )
         {
             discard = false;
@@ -304,7 +304,7 @@ org.antlr.lang.extend(org.antlr.runtime.CommonTokenStream,
         var buf = "",
             i,
             t;
- 
+
         if ( start<0 || stop<0 ) {
             return null;
         }

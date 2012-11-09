@@ -8,11 +8,11 @@ org.antlr.runtime.tree.RewriteCardinalityException = function(elementDescription
  */
 org.antlr.lang.extend(org.antlr.runtime.tree.RewriteCardinalityException, Error, {
     getMessage: function() {
-		if ( org.antlr.lang.isString(this.elementDescription) ) {
-			return this.elementDescription;
-		}
-		return null;
-	},
+        if ( org.antlr.lang.isString(this.elementDescription) ) {
+            return this.elementDescription;
+        }
+        return null;
+    },
     name: function() {
         return "org.antlr.runtime.tree.RewriteCardinalityException";
     }

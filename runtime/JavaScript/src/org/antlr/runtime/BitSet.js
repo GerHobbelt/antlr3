@@ -1,7 +1,7 @@
 /**
  * A BitSet similar to java.util.BitSet.
  *
- * <p>JavaScript Note: There is no good way to implement something like this in 
+ * <p>JavaScript Note: There is no good way to implement something like this in
  * JavaScript.  JS has no true int type, arrays are usually implemented as
  * hashes, etc.  This class should probably be nixed for something that is
  * similarly (in)efficient, but more clear.</p>
@@ -40,7 +40,7 @@ org.antlr.lang.augmentObject(org.antlr.runtime.BitSet, {
      * @constant
      * @memberOf org.antlr.runtime.BitSet
      */
-    LOG_BITS: 5,  // 2^5 == 32 
+    LOG_BITS: 5,  // 2^5 == 32
 
     /**
      * We will often need to do a mod operator (i mod nbits).  Its
@@ -92,7 +92,7 @@ org.antlr.lang.augmentObject(org.antlr.runtime.BitSet, {
 
     /**
      * BitSet factory method.
-     * 
+     *
      * <p>Operates in a number of modes:
      * <ul>
      * <li>If el is a number create the BitSet containing that number.</li>
@@ -184,23 +184,23 @@ org.antlr.runtime.BitSet.prototype = {
         if ( elements instanceof org.antlr.runtime.BitSet ) {
             this.orInPlace(elements);
         }
-		else if ( elements instanceof org.antlr.runtime.IntervalSet ) {
-			other = elements;
-			// walk set and add each interval
+        else if ( elements instanceof org.antlr.runtime.IntervalSet ) {
+            other = elements;
+            // walk set and add each interval
             /* @todo after implementing intervalset
-			for (Iterator iter = other.intervals.iterator(); iter.hasNext();) {
-				Interval I = (Interval) iter.next();
-				this.orInPlace(BitSet.range(I.a,I.b));
-			}*/
-		} else if (org.antlr.lang.isArray(elements)) {
-    		for (i = 0; i < elements.length; i++) {
-	    		e = elements[i];
-		    	this.add(e);
-    		}
+            for (Iterator iter = other.intervals.iterator(); iter.hasNext();) {
+                Interval I = (Interval) iter.next();
+                this.orInPlace(BitSet.range(I.a,I.b));
+            }*/
+        } else if (org.antlr.lang.isArray(elements)) {
+            for (i = 0; i < elements.length; i++) {
+                e = elements[i];
+                this.add(e);
+            }
         } else {
             return;
         }
-	},
+    },
 
     /**
      * Clone this BitSet and then {@link #andInPlace} with a.
@@ -216,9 +216,9 @@ org.antlr.runtime.BitSet.prototype = {
     /**
      * Perform a logical AND of this target BitSet with the argument BitSet.
      *
-     * This bit set is modified so that each bit in it has the value true if 
-     * and only if it both initially had the value true and the corresponding 
-     * bit in the bit set argument also had the value true. 
+     * This bit set is modified so that each bit in it has the value true if
+     * and only if it both initially had the value true and the corresponding
+     * bit in the bit set argument also had the value true.
      * @param {org.antlr.runtime.BitSet} a a bit set.
      * @returns {org.antlr.runtime.BitSet}
      */
@@ -251,17 +251,17 @@ org.antlr.runtime.BitSet.prototype = {
         }
 
         var n = org.antlr.runtime.BitSet.wordNumber(el);
-        if (n >= this.bits.length) {	// grow as necessary to accommodate
+        if (n >= this.bits.length) {    // grow as necessary to accommodate
             this.growToInclude(el);
         }
         this.bits[n] &= ~org.antlr.runtime.BitSet.bitMask(el);
     },
 
     /**
-     * Cloning this BitSet produces a new BitSet  that is equal to it. 
+     * Cloning this BitSet produces a new BitSet  that is equal to it.
      *
      * The clone of the bit set is another bit set that has exactly the same
-     * bit set to true as this bit set. 
+     * bit set to true as this bit set.
      * @returns {org.antlr.runtime.BitSet} a clone of this BitSet.
      */
     clone: function() {
@@ -273,10 +273,10 @@ org.antlr.runtime.BitSet.prototype = {
     },
 
     /**
-     * Returns the number of bits of space actually in use by this BitSet to 
+     * Returns the number of bits of space actually in use by this BitSet to
      * represent bit values.
      *
-     * The maximum element in the set is the size - 1st element. 
+     * The maximum element in the set is the size - 1st element.
      * @returns {Number} the number of bits currently in this bit set.
      */
     size: function() {
@@ -362,7 +362,7 @@ org.antlr.runtime.BitSet.prototype = {
     /**
      * Returns the value of the bit with the specified index.
      *
-     * The value is true if the bit with the index el is currently set 
+     * The value is true if the bit with the index el is currently set
      * in this BitSet; otherwise, the result is false.
      * @param {Number} el the bit index.
      * @returns {Boolean} the value of the bit with the specified index.
@@ -463,9 +463,9 @@ org.antlr.runtime.BitSet.prototype = {
      * @returns {org.antlr.runtime.BitSet}
      */
     or: function(a) {
-		if ( !a ) {
-			return this;
-		}
+        if ( !a ) {
+            return this;
+        }
         var s = this.clone();
         s.orInPlace(a);
         return s;
@@ -477,9 +477,9 @@ org.antlr.runtime.BitSet.prototype = {
      * @returns {org.antlr.runtime.BitSet}
      */
     orInPlace: function(a) {
-		if ( !a ) {
-			return;
-		}
+        if ( !a ) {
+            return;
+        }
         // If this is smaller than a, grow this first
         if (a.bits.length > this.bits.length) {
             this.setSize(a.bits.length);
@@ -577,8 +577,8 @@ org.antlr.runtime.BitSet.prototype = {
 
     /* antlr-java needs this to make its class hierarchy happy . . .
     toList: function() {
-		throw new Error("BitSet.toList() unimplemented");
-	},
+        throw new Error("BitSet.toList() unimplemented");
+    },
     */
 
     /**
@@ -613,7 +613,7 @@ org.antlr.runtime.BitSet.prototype = {
      * Such indices are listed in order from lowest to highest, separated by
      * ", " (a comma and a space) and surrounded by braces, resulting in the
      * usual mathematical notation for a set of integers.</p>
-     * 
+     *
      * <p>If a grammar g is passed, print g.getTokenDisplayName(i) for each set
      * index instead of the numerical index.</p>
      *
@@ -655,7 +655,7 @@ org.antlr.runtime.BitSet.prototype = {
         var buf = "{",
             separator = ",",
             i,
-		    havePrintedAnElement = false;
+            havePrintedAnElement = false;
 
         for (i = 0; i < (this.bits.length << org.antlr.runtime.BitSet.LOG_BITS); i++) {
             if (this.member(i)) {
@@ -668,7 +668,7 @@ org.antlr.runtime.BitSet.prototype = {
                 else {
                     buf += i.toString();
                 }
-				havePrintedAnElement = true;
+                havePrintedAnElement = true;
             }
         }
         return buf + "}";

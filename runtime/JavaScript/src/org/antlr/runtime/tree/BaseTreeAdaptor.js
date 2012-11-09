@@ -30,7 +30,7 @@ org.antlr.lang.extend(org.antlr.runtime.tree.BaseTreeAdaptor,
 
     /** This is generic in the sense that it will work with any kind of
      *  tree (not just Tree interface).  It invokes the adaptor routines
-     *  not the tree node routines to do the construction.  
+     *  not the tree node routines to do the construction.
      */
     dupTree: function(t, parent) {
         if (arguments.length===1) {

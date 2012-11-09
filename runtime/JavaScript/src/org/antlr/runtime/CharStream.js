@@ -8,7 +8,7 @@ org.antlr.runtime.CharStream = function() {};
 org.antlr.runtime.IntStream = function() {};
 
 org.antlr.lang.extend(org.antlr.runtime.CharStream,
-                      org.antlr.runtime.IntStream);  
+                      org.antlr.runtime.IntStream);
 
 org.antlr.lang.augmentObject(org.antlr.runtime.CharStream,
 /** @lends org.antlr.runtime.CharStream */

@@ -1,5 +1,5 @@
 /** Queues up nodes matched on left side of -> in a tree parser. This is
- *  the analog of RewriteRuleTokenStream for normal parsers. 
+ *  the analog of RewriteRuleTokenStream for normal parsers.
  */
 org.antlr.runtime.tree.RewriteRuleNodeStream = function(adaptor, elementDescription, el) {
     org.antlr.runtime.tree.RewriteRuleNodeStream.superclass.constructor.apply(this, arguments);

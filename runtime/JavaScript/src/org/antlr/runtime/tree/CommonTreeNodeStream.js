@@ -50,7 +50,7 @@ org.antlr.lang.augmentObject(org.antlr.runtime.tree.CommonTreeNodeStream, {
 });
 
 org.antlr.lang.extend(org.antlr.runtime.tree.CommonTreeNodeStream,
-                  org.antlr.runtime.tree.TreeNodeStream, 
+                  org.antlr.runtime.tree.TreeNodeStream,
 {
     StreamIterator: function() {
         var i = 0,

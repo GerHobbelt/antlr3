@@ -60,7 +60,7 @@ org.antlr.lang.augmentObject(org.antlr.runtime.BaseRecognizer, {
 
     /**
      * @memberOf org.antlr.runtime.BaseRecognizer
-     * @type String 
+     * @type String
      */
     NEXT_TOKEN_RULE_NAME: "nextToken"
 });
@@ -701,7 +701,7 @@ org.antlr.runtime.BaseRecognizer.prototype = {
      *  for input stream type or change the IntStream interface, I use
      *  a simple method to ask the recognizer to tell me what the current
      *  input symbol is.
-     * 
+     *
      *  <p>This is ignored for lexers.</p>
      *  @param {org.antlr.runtime.IntStream} input
      *  @returns {Object}
@@ -888,7 +888,7 @@ org.antlr.runtime.BaseRecognizer.prototype = {
                       ruleIndex,
                       ruleStartIndex)
     {
-        var stopTokenIndex = this.state.failed ? 
+        var stopTokenIndex = this.state.failed ?
             org.antlr.runtime.BaseRecognizer.MEMO_RULE_FAILED : input.index()-1;
         if ( !org.antlr.lang.isValue(this.state.ruleMemo) ) {
             throw new Error("!!!!!!!!! memo array is null for "+ this.getGrammarFileName());
