@@ -18,3 +18,7 @@ nb-configuration.xml
 
 # Python runtime files
 *.py[co]
+
+# Editor backup files
+*.bak
+*~
