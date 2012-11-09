@@ -29,6 +29,9 @@ group AST;
 
 @outputFile.imports() ::= <<
 <@super.imports()>
+<if(!TREE_PARSER)><! tree parser would already have imported !>
+//import org.antlr.runtime.tree.*;<\n>
+<endif>
 >>
 
 @genericParser.members() ::= <<
@@ -49,23 +52,27 @@ getTreeAdaptor: function() {
 >>
 
 @returnScope.ruleReturnMembers() ::= <<
+<!<ASTLabelType> tree;!>
 getTree: function() { return this.tree; }
 >>
 
 /** Add a variable to track rule's return AST */
 ruleDeclarations() ::= <<
 <super.ruleDeclarations()>
-var root_0 = null;<\n>
+var /* <ASTLabelType> */ root_0 = null;<\n>
 >>
 
 ruleLabelDefs() ::= <<
 <super.ruleLabelDefs()>
-<ruleDescriptor.tokenLabels:{var <it.label.text>_tree=null;}; separator="\n">
-<ruleDescriptor.tokenListLabels:{var <it.label.text>_tree=null;}; separator="\n">
+<if(!ruleDescriptor.isSynPred)>
+<[ruleDescriptor.tokenLabels,ruleDescriptor.wildcardTreeLabels,
+  ruleDescriptor.wildcardTreeListLabels]:{it | var /* <ASTLabelType> */ <it.label.text>_tree=null;}; separator="\n">
+<ruleDescriptor.tokenListLabels:{it | var /* <ASTLabelType> */ <it.label.text>_tree=null;}; separator="\n">
 <ruleDescriptor.allTokenRefsInAltsWithRewrites
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRuleTokenStream(this.adaptor,"token <it>");}; separator="\n">
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRuleTokenStream(this.adaptor,"token <it>");}; separator="\n">
 <ruleDescriptor.allRuleRefsInAltsWithRewrites
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"rule <it>");}; separator="\n">
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"rule <it>");}; separator="\n">
+<endif>
 >>
 
 /** When doing auto AST construction, we must define some variables;
@@ -76,7 +83,7 @@ ruleLabelDefs() ::= <<
 @alt.declarations() ::= <<
 <if(autoAST)>
 <if(outerAlt)>
-<if(!rewriteMode)>
+<if(!rewriteMode && !ruleDescriptor.isSynPred)>
 root_0 = this.adaptor.nil();<\n>
 <endif>
 <endif>
@@ -96,7 +103,7 @@ tokenRefTrack(token,label,elementIndex,terminalOptions) ::= <<
  */
 tokenRefTrackAndListLabel(token,label,elementIndex,terminalOptions) ::= <<
 <tokenRefTrack(...)>
-<listLabel(elem=label,...)>
+<listLabel(elem=label, ...)>
 >>
 
 /** ^(ID ...) track for rewrite */
@@ -108,11 +115,7 @@ tokenRefRuleRootTrack(token,label,elementIndex,terminalOptions) ::= <<
 /** Match ^(label+=TOKEN ...) track for rewrite */
 tokenRefRuleRootTrackAndListLabel(token,label,elementIndex,terminalOptions) ::= <<
 <tokenRefRuleRootTrack(...)>
-<listLabel(elem=label,...)>
->>
-
-wildcardTrack(label,elementIndex) ::= <<
-<super.wildcard(...)>
+<listLabel(elem=label, ...)>
 >>
 
 /** rule when output=AST and tracking for rewrite */
@@ -124,7 +127,7 @@ ruleRefTrack(rule,label,elementIndex,args,scope) ::= <<
 /** x+=rule when output=AST and tracking for rewrite */
 ruleRefTrackAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 <ruleRefTrack(...)>
-<listLabel(elem=label+".getTree()",...)>
+<listLabel(label, {<label>.getTree()})>
 >>
 
 /** ^(rule ...) rewrite */
@@ -136,21 +139,21 @@ ruleRefRuleRootTrack(rule,label,elementIndex,args,scope) ::= <<
 /** ^(x+=rule ...) rewrite */
 ruleRefRuleRootTrackAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 <ruleRefRuleRootTrack(...)>
-<listLabel(elem=label+".getTree()",...)>
+<listLabel(label, {<label>.getTree()})>
 >>
 
 // R e w r i t e
 
 rewriteCode(
-	alts, description,
-	referencedElementsDeep, // ALL referenced elements to right of ->
-	referencedTokenLabels,
-	referencedTokenListLabels,
-	referencedRuleLabels,
-	referencedRuleListLabels,
+    alts, description,
+    referencedElementsDeep, // ALL referenced elements to right of ->
+    referencedTokenLabels,
+    referencedTokenListLabels,
+    referencedRuleLabels,
+    referencedRuleListLabels,
     referencedWildcardLabels,
     referencedWildcardListLabels,
-	rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::=
+    rewriteBlockLevel, enclosingTreeLevel, treeLevel) ::=
 <<
 
 // AST REWRITE
@@ -159,6 +162,7 @@ rewriteCode(
 // rule labels: <referencedRuleLabels; separator=", ">
 // token list labels: <referencedTokenListLabels; separator=", ">
 // rule list labels: <referencedRuleListLabels; separator=", ">
+// wildcard labels: <[referencedWildcardLabels,referencedWildcardListLabels]; separator=", ">
 <if(backtracking)>
 if ( <actions.(actionScope).synpredgate> ) {<\n>
 <endif>
@@ -191,27 +195,27 @@ this.input.replaceChildren(this.adaptor.getParent(retval.start),
 
 rewriteCodeLabels() ::= <<
 <referencedTokenLabels
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRule<rewriteElementType>Stream(this.adaptor,"token <it>",<it>);};
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRule<rewriteElementType>Stream(this.adaptor,"token <it>",<it>);};
     separator="\n"
 >
 <referencedTokenListLabels
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRule<rewriteElementType>Stream(this.adaptor,"token <it>", list_<it>);};
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRule<rewriteElementType>Stream(this.adaptor,"token <it>", list_<it>);};
     separator="\n"
 >
 <referencedWildcardLabels
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"wildcard <it>",<it>);};
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"wildcard <it>",<it>);};
     separator="\n"
 >
 <referencedWildcardListLabels
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"wildcard <it>",list_<it>);};
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"wildcard <it>",list_<it>);};
     separator="\n"
 >
 <referencedRuleLabels
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"token <it>",<it>!=null?<it>.tree:null);};
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"rule <it>",<it>!=null?<it>.getTree() /* <it>.tree */ :null);};
     separator="\n"
 >
 <referencedRuleListLabels
-    :{var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"token <it>",list_<it>);};
+    :{it | var stream_<it>=new org.antlr.runtime.tree.RewriteRuleSubtreeStream(this.adaptor,"token <it>",list_<it>);};
     separator="\n"
 >
 >>
@@ -220,10 +224,10 @@ rewriteCodeLabels() ::= <<
   *  list rather shallow like other blocks.
   */
 rewriteOptionalBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 if ( <referencedElementsDeep:{el | stream_<el>.hasNext()}; separator="||"> ) {
@@ -233,10 +237,10 @@ if ( <referencedElementsDeep:{el | stream_<el>.hasNext()}; separator="||"> ) {
 >>
 
 rewriteClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 // <fileName>:<description>
 while ( <referencedElements:{el | stream_<el>.hasNext()}; separator="||"> ) {
@@ -246,10 +250,10 @@ while ( <referencedElements:{el | stream_<el>.hasNext()}; separator="||"> ) {
 >>
 
 rewritePositiveClosureBlock(
-	alt,rewriteBlockLevel,
-	referencedElementsDeep, // all nested refs
-	referencedElements, // elements in immediately block; no nested blocks
-	description) ::=
+    alt,rewriteBlockLevel,
+    referencedElementsDeep, // all nested refs
+    referencedElements, // elements in immediately block; no nested blocks
+    description) ::=
 <<
 if ( !(<referencedElements:{el | stream_<el>.hasNext()}; separator="||">) ) {
     throw new org.antlr.runtime.tree.RewriteEarlyExitException();
@@ -322,11 +326,11 @@ root_<treeLevel> = this.adaptor.becomeRoot(<createRewriteNodeFromElement(...)>, 
 >>
 
 rewriteImaginaryTokenRef(args,token,terminalOptions,elementIndex) ::= <<
-this.adaptor.addChild(root_<treeLevel>, <createImaginaryNode(tokenType=token, ...)>);<\n>
+this.adaptor.addChild(root_<treeLevel>, <createImaginaryNode(token,terminalOptions,args)>);<\n>
 >>
 
 rewriteImaginaryTokenRefRoot(args,token,terminalOptions,elementIndex) ::= <<
-root_<treeLevel> = this.adaptor.becomeRoot(<createImaginaryNode(tokenType=token, ...)>, root_<treeLevel>);<\n>
+root_<treeLevel> = this.adaptor.becomeRoot(<createImaginaryNode(token,terminalOptions,args)>, root_<treeLevel>);<\n>
 >>
 
 /** plain -> {foo} action */
@@ -380,6 +384,7 @@ root_<treeLevel> = this.adaptor.becomeRoot(stream_<label>.nextNode(), root_<tree
 rewriteWildcardLabelRef(label) ::= <<
 this.adaptor.addChild(root_<treeLevel>, stream_<label>.nextTree());<\n>
 >>
+
 
 createImaginaryNode(tokenType,terminalOptions,args) ::= <<
 <if(terminalOptions.node)>

@@ -1,3 +1,31 @@
+/*
+ [The "BSD license"]
+ Copyright (c) 2005-2006 Terence Parr
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 /** Templates for building ASTs during normal parsing.
  *
  *  Deal with many combinations.  Dimensions are:
@@ -13,6 +41,7 @@ group ASTParser;
 
 @rule.setErrorReturnValue() ::= <<
 retval.tree = this.adaptor.errorNode(this.input, retval.start, this.input.LT(-1), re);
+<! System.out.println("<ruleName> returns "+((CommonTree)retval.tree).toStringTree()); !>
 >>
 
 // TOKEN AST STUFF
@@ -20,40 +49,44 @@ retval.tree = this.adaptor.errorNode(this.input, retval.start, this.input.LT(-1)
 /** ID and output=AST */
 tokenRef(token,label,elementIndex,terminalOptions) ::= <<
 <super.tokenRef(...)>
+<if(!ruleDescriptor.isSynPred)>
 <if(backtracking)>if ( <actions.(actionScope).synpredgate> ) {<endif>
 <label>_tree = <createNodeFromToken(...)>;
 this.adaptor.addChild(root_0, <label>_tree);
 <if(backtracking)>}<endif>
+<endif>
 >>
 
 /** ID! and output=AST (same as plain tokenRef) */
-tokenRefBang(token,label,elementIndex) ::= "<super.tokenRef(...)>"
+tokenRefBang(token,label,elementIndex,terminalOptions) ::= "<super.tokenRef(...)>"
 
 /** ID^ and output=AST */
 tokenRefRuleRoot(token,label,elementIndex,terminalOptions) ::= <<
 <super.tokenRef(...)>
+<if(!ruleDescriptor.isSynPred)>
 <if(backtracking)>if ( <actions.(actionScope).synpredgate> ) {<endif>
 <label>_tree = <createNodeFromToken(...)>;
 root_0 = this.adaptor.becomeRoot(<label>_tree, root_0);
 <if(backtracking)>}<endif>
+<endif>
 >>
 
 /** ids+=ID! and output=AST */
 tokenRefBangAndListLabel(token,label,elementIndex,terminalOptions) ::= <<
 <tokenRefBang(...)>
-<listLabel(elem=label,...)>
+<listLabel(elem=label, ...)>
 >>
 
 /** label+=TOKEN when output=AST but not rewrite alt */
 tokenRefAndListLabel(token,label,elementIndex,terminalOptions) ::= <<
 <tokenRef(...)>
-<listLabel(elem=label,...)>
+<listLabel(elem=label, ...)>
 >>
 
 /** Match label+=TOKEN^ when output=AST but not rewrite alt */
 tokenRefRuleRootAndListLabel(token,label,terminalOptions,elementIndex) ::= <<
 <tokenRefRuleRoot(...)>
-<listLabel(elem=label,...)>
+<listLabel(elem=label, ...)>
 >>
 
 // SET AST
@@ -69,15 +102,15 @@ tokenRefRuleRootAndListLabel(token,label,terminalOptions,elementIndex) ::= <<
 // rather than just added on code.  Investigate that refactoring when
 // I have more time.
 
-matchSet(s,label,terminalOptions,elementIndex,postmatchCode) ::= <<
-<super.matchSet(..., postmatchCode={<if(backtracking)>if ( <actions.(actionScope).synpredgate> ) <endif>this.adaptor.addChild(root_0, <createNodeFromToken(...)>);})>
->>
+matchSet(s,label,terminalOptions,elementIndex,postmatchCode) ::= <%
+<super.matchSet(postmatchCode={<if(!ruleDescriptor.isSynPred)><if(backtracking)>if ( <actions.(actionScope).synpredgate> ) <endif>this.adaptor.addChild(root_0, <createNodeFromToken(...)>);<endif>}, ...)>
+%>
 
 matchRuleBlockSet(s,label,terminalOptions,elementIndex,postmatchCode,treeLevel="0") ::= <<
 <matchSet(...)>
 >>
 
-matchSetBang(s,label,elementIndex,postmatchCode) ::= "<super.matchSet(...)>"
+matchSetBang(s,label,elementIndex,terminalOptions,postmatchCode) ::= "<super.matchSet(...)>"
 
 // note there is no matchSetTrack because -> rewrites force sets to be
 // plain old blocks of alts: (A|B|...|C)
@@ -86,7 +119,7 @@ matchSetRuleRoot(s,label,terminalOptions,elementIndex,debug) ::= <<
 <if(label)>
 <label>=input.LT(1);<\n>
 <endif>
-<super.matchSet(..., postmatchCode={<if(backtracking)>if ( <actions.(actionScope).synpredgate> ) <endif>root_0 = this.adaptor.becomeRoot(<createNodeFromToken(...)>, root_0);})>
+<super.matchSet(postmatchCode={<if(!ruleDescriptor.isSynPred)><if(backtracking)>if ( <actions.(actionScope).synpredgate> ) <endif>root_0 = this.adaptor.becomeRoot(<createNodeFromToken(...)>, root_0);<endif>},...)>
 >>
 
 // RULE REF AST
@@ -94,7 +127,9 @@ matchSetRuleRoot(s,label,terminalOptions,elementIndex,debug) ::= <<
 /** rule when output=AST */
 ruleRef(rule,label,elementIndex,args,scope) ::= <<
 <super.ruleRef(...)>
+<if(!ruleDescriptor.isSynPred)>
 <if(backtracking)>if ( <actions.(actionScope).synpredgate> ) <endif>this.adaptor.addChild(root_0, <label>.getTree());
+<endif>
 >>
 
 /** rule! is same as normal rule ref */
@@ -109,39 +144,43 @@ ruleRefRuleRoot(rule,label,elementIndex,args,scope) ::= <<
 /** x+=rule when output=AST */
 ruleRefAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 <ruleRef(...)>
-<listLabel(elem=label+".getTree()",...)>
+<listLabel(label, {<label>.getTree()})>
 >>
 
 /** x+=rule! when output=AST is a rule ref with list addition */
 ruleRefBangAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 <ruleRefBang(...)>
-<listLabel(elem=label+".getTree()",...)>
+<listLabel(label, {<label>.getTree()})>
 >>
 
 /** x+=rule^ */
 ruleRefRuleRootAndListLabel(rule,label,elementIndex,args,scope) ::= <<
 <ruleRefRuleRoot(...)>
-<listLabel(elem=label+".getTree()",...)>
+<listLabel(label, {<label>.getTree()})>
 >>
 
 // WILDCARD AST
 
-wildcard(label,elementIndex) ::= <<
+wildcard(token,label,elementIndex,terminalOptions) ::= <<
 <super.wildcard(...)>
+<if(!ruleDescriptor.isSynPred)>
 <if(backtracking)>if ( <actions.(actionScope).synpredgate> ) {<endif>
 <label>_tree = this.adaptor.create(<label>);
 this.adaptor.addChild(root_0, <label>_tree);
 <if(backtracking)>}<endif>
+<endif>
 >>
 
 wildcardBang(label,elementIndex) ::= "<super.wildcard(...)>"
 
-wildcardRuleRoot(label,elementIndex) ::= <<
+wildcardRuleRoot(token,label,elementIndex,terminalOptions) ::= <<
 <super.wildcard(...)>
+<if(!ruleDescriptor.isSynPred)>
 <if(backtracking)>if ( <actions.(actionScope).synpredgate> ) {<endif>
 <label>_tree = this.adaptor.create(<label>);
 root_0 = this.adaptor.becomeRoot(<label>_tree, root_0);
 <if(backtracking)>}<endif>
+<endif>
 >>
 
 createNodeFromToken(label,terminalOptions) ::= <<
