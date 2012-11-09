@@ -287,7 +287,7 @@ public abstract class SemanticContext {
 									  DFA dfa)
 		{
 			if ( templates!=null ) {
-				return templates.getInstanceOf("false");
+				return templates.getInstanceOf("false_value");
 			}
 			return new ST("false");
 		}
