@@ -160,7 +160,7 @@ org.antlr.lang.augmentObject(<grammar.recognizerName>.prototype, {
     <rules; separator=",\n\n">
 
     <synpreds:{p | <lexerSynpred(p)>}; separator=",\n">
-}, true); // important to pass true to overwrite default implementations
+}, true); // org.antlr.lang.augmentObject(): important to pass true to overwrite default implementations
 
 <cyclicDFAs:cyclicDFA(); separator="\n\n"> <! dump tables for all DFA !>
 })();
@@ -322,7 +322,7 @@ org.antlr.lang.augmentObject(<grammar.recognizerName>.prototype, {
 
     <synpreds:{p | <synpred(p)>}; separator=",\n">
 
-}, true); // important to pass true to overwrite default implementations
+}, true); // org.antlr.lang.augmentObject(): important to pass true to overwrite default implementations
 
 <cyclicDFAs:cyclicDFA(); separator="\n\n"><! dump tables for all DFA !>
 
@@ -397,8 +397,8 @@ synpredRule(ruleName, ruleDescriptor, block, description, nakedBlock) ::=
 <else>
     <block>
 <endif>
-},
-// $ANTLR end <ruleName>
+}
+// $ANTLR end <ruleName><\n>
 >>
 
 synpred(name) ::= <<
@@ -492,7 +492,7 @@ rule(ruleName,ruleDescriptor,block,emptyRule,description,exceptions,finally,memo
     <@postamble()>
     return <ruleReturnValue()>;
 }
-// $ANTLR end "<ruleName>"
+// $ANTLR end "<ruleName>"<\n>
 >>
 
 catch(decl,action) ::= <<
@@ -504,7 +504,7 @@ catch (<e.decl>) {
 ruleDeclarations() ::= <<
 <if(ruleDescriptor.hasMultipleReturnValues)>
 //<returnType(ruleDescriptor)> retval = new <returnType(ruleDescriptor)>();
-var retval = new <returnType()>();
+var retval = new <returnType(ruleDescriptor)>();
 retval.start = this.input.LT(1);<\n>
 <else>
 <ruleDescriptor.returnScope.attributes:{ a |
@@ -613,8 +613,8 @@ m<ruleName>: function(<ruleDescriptor.parameterScope:parameterScope()>)  {
         <ruleScopeCleanUp()>
         <memoize()>
     }
-},
-// $ANTLR end "<ruleName>"
+}
+// $ANTLR end "<ruleName>"<\n>
 >>
 
 /** How to generate code for the implicitly-defined lexer grammar rule
@@ -1358,8 +1358,8 @@ returnScope(scope) ::= <<
 //public static class <ruleDescriptor:returnStructName()> extends <returnScopeBaseType()> {
 //    <scope.attributes:{it |public <it.decl>;}; separator="\n//">
 <ruleDescriptor:returnStructName()>: (function() {
-    <returnType()> = function(){};
-    org.antlr.lang.extend(<returnType()>,
+    <returnType(ruleDescriptor)> = function(){};
+    org.antlr.lang.extend(<returnType(ruleDescriptor)>,
                       <returnScopeBaseType()>,
     {
         <@ruleReturnMembers()>

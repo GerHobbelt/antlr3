@@ -22,3 +22,6 @@ nb-configuration.xml
 # Editor backup files
 *.bak
 *~
+
+runtime/Java/src/main/java/org/antlr/runtime/*.js
+runtime/Java/src/main/java/org/antlr/runtime/*/*.js
